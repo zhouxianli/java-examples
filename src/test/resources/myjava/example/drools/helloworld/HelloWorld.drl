@@ -1,0 +1,22 @@
+package myjava.example.drools.helloworld;
+
+import myjava.example.drools.DroolsHelloWorldTest.Message;
+
+rule "Hello World"
+    dialect "mvel"
+    when
+        m : Message( status == Message.HELLO, message : message )
+    then
+        System.out.println( "MVEL " + message );
+
+    modify ( m ) { message = "Goodbye cruel world",
+                   status = Message.GOODBYE };
+end
+
+rule "Good Bye"
+    dialect "java"
+    when
+        Message( status == Message.GOODBYE, message : message )
+    then
+        System.out.println( "Java " + message );
+end
